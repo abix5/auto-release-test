@@ -1,0 +1,52 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "@prodentinc/eslint-config-prodent"
+  ],
+
+  "parser": "@typescript-eslint/parser",
+
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+
+  "plugins": [
+    "@typescript-eslint"
+  ],
+
+  "rules": {},
+
+  "overrides": [
+    {
+      "files": ["auto.config.ts", "test/**/*.test.ts", "test/**/*.test.tsx"],
+
+      "rules": {
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": ["auto.config.ts", "test/**/*.test.ts", "test/**/*.test.tsx"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["test/**/*.test.ts", "test/**/*.test.tsx"],
+
+      "env": {
+        "jest": true,
+        "node": true
+      },
+
+      "rules": {
+        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-params": "off"
+      }
+    }
+  ]
+}

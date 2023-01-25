@@ -1,0 +1,80 @@
+changelog:
+  path: ".CHANGELOG.md"
+  sections:
+    "Added": "^feat$"
+    "Fixed": "^fix$"
+    "Changed": ""
+  substitutions:
+    "(?m)#([0-9]+)(?s)": "[#%s](https://prodent.jetbrains.space/p/prodent/issues/%s)"
+git:
+  remotes:
+    origin:
+      user: "PRIVATE-TOKEN"
+      password: "p6ZdeAHMVAMYTfmZ_nds"
+commitMessageConventions: 
+  enabled: 
+    - conventionalCommits
+  items: 
+    conventionalCommits: 
+      expression: "(?m)^(?<type>[a-zA-Z0-9_]+)(!)?(\\((?<scope>[a-z ]+)\\))?:( (?<title>.+))$(?s).*"
+      bumpExpressions: 
+        major: "(?s)(?m)^[a-zA-Z0-9_]+(!|.*^(BREAKING( |-)CHANGE: )).*"
+        minor: "(?s)(?m)^feat(?!!|.*^(BREAKING( |-)CHANGE: )).*"
+        patch: "(?s)(?m)^fix(?!!|.*^(BREAKING( |-)CHANGE: )).*"
+releaseLenient: true
+releasePrefix: "v"
+releaseTypes:
+  enabled: 
+    - mainline
+    - integration
+  publicationServices:
+    - gitlab
+  remoteRepositories:
+    - origin
+  items: 
+    mainline: 
+      collapseVersions: false
+      filterTags: "^(v)?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$"
+      gitCommit: "false"
+      gitCommitMessage: "Release version {{version}}"
+      gitPush: "false"
+      gitTag: "true"
+      gitTagMessage: "Tag version {{version}}"
+      matchBranches: ^(master|main)$
+      matchEnvironmentVariables: 
+        CI: "^true$"
+      matchWorkspaceStatus: "CLEAN"
+      publish: "true"
+      versionRangeFromBranchName: false
+    integration: 
+      collapseVersions: false
+      description: "{{#fileContent}}.CHANGELOG.md{{/fileContent}}"
+      filterTags: "^(v)?([0-9]\\d*)\\.([0-9]\\d*)\\.([0-9]\\d*)$"
+      gitCommit: "true"
+      gitPush: "true"
+      gitTag: "true"
+      gitTagMessage: "Tag version {{version}}"
+      matchBranches: "^(dev)$"
+      matchEnvironmentVariables: 
+        CI: "^true$"
+      matchWorkspaceStatus: "CLEAN"
+      publish: "true"
+      versionRangeFromBranchName: false
+scheme: "SEMVER"
+resume: false
+services:
+  gitlab: 
+    type: "GITLAB"
+    options: 
+#      "BASE_URI": "{{#environmentVariable}}CI_API_V4_URL{{/environmentVariable}}"
+#      "AUTHENTICATION_TOKEN": "{{#environmentVariable}}GITLAB_TOKEN{{/environmentVariable}}"
+#      "REPOSITORY_NAME": "{{#environmentVariable}}CI_PROJECT_NAME{{/environmentVariable}}"
+#      "REPOSITORY_OWNER": "{{#environmentVariable}}CI_PROJECT_NAMESPACE{{/environmentVariable}}"
+      "BASE_URI": "https://gitlab.prodentcrm.ru/api/v4"
+      "AUTHENTICATION_TOKEN": "p6ZdeAHMVAMYTfmZ_nds"
+      "REPOSITORY_NAME": "auto-release-test"
+      "REPOSITORY_OWNER": "others"
+stateFile: ".nyx-state.yml"
+verbosity: DEBUG
+
+
